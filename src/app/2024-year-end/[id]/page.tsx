@@ -21,11 +21,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params; // params 안전하게 접근
 
   // 메타데이터 생성을 위해 필요한 데이터 가져오기
-  // const response = await fetch(`https://api.example.com/events/${id}`);
-  // const eventData = await response.json();
+  const response = await fetch(
+    `https://api-server-fg5dmxiesa-du.a.run.app/event/2024-year-end-summary?hash=${id}`
+  );
+  const eventData = await response.json();
+  // console.log(eventData);
   return {
     title: `Event ${id}`,
     description: `Details for event ${id}`,
+    openGraph: {
+      title: eventData.title || `Event ${id}`,
+      description: eventData.description || `Details for event ${id}`,
+      url: `https://your-website.com/2024-year-end/${id}`, // 이벤트 페이지 URL
+      type: "website", // 또는 'article' 등 적합한 Open Graph 유형 설정
+      images: [
+        {
+          url: "https://firebasestorage.googleapis.com/v0/b/phoz-7f0de/o/notice%2Fevent_test%2Fmain.png?alt=media&token=48f48204-72ae-4550-bae7-37af783cea32",
+          width: 1200,
+          height: 630,
+          alt: eventData.title || "Default Image",
+        },
+      ],
+    },
   };
 }
 
@@ -94,12 +111,12 @@ export default async function EventPage({ params }: Props) {
     <div style={styles.container}>
       <div style={styles.header}>
         <div style={styles.headerTitle}>
-          <Image
+          {/* <Image
             src="/src/assets/2024-year-end/header.png"
             width={343}
             height={140}
             alt="Year end header"
-          />
+          /> */}
           <div style={styles.dayInfo}>
             <Typo>슈퍼멤버스와 함께한지</Typo>
             <Typo
