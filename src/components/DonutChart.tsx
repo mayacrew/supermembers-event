@@ -1,19 +1,31 @@
-"use client";
+'use client'
 
-import { ApexOptions } from "apexcharts";
-import { useState } from "react";
-import ReactApexChart from "react-apexcharts";
+import dynamic from 'next/dynamic'
+import { YearEndInfo } from '@/types'
+import { ApexOptions } from 'apexcharts'
+import { useState } from 'react'
+import { formattedCategory } from '@/utils'
 
-const DonutChart = () => {
+interface Props {
+  category: YearEndInfo['yourCategories']
+}
+
+const DonutChart = ({ category }: Props) => {
+  const ApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
+
+  const categoryList = formattedCategory(category)
+
   const [state, setState] = useState<{
-    series: number[];
-    options: ApexOptions;
+    series: any[]
+    options: ApexOptions
   }>({
-    series: [44, 55, 41, 17, 15, 12],
+    series: Object.values(categoryList),
+
     options: {
       chart: {
-        type: "donut",
+        type: 'donut',
       },
+      labels: Object.keys(categoryList),
       responsive: [
         {
           breakpoint: 480,
@@ -22,26 +34,26 @@ const DonutChart = () => {
               width: 200,
             },
             legend: {
-              position: "bottom",
+              position: 'bottom',
             },
           },
         },
       ],
     },
-  });
-
+  })
   return (
     <div>
       <div id="chart">
-        <ReactApexChart
+        <ApexChart
           options={state.options}
           series={state.series}
+          labels={state.options.labels}
           type="donut"
         />
       </div>
       <div id="html-dist"></div>
     </div>
-  );
-};
+  )
+}
 
-export default DonutChart;
+export default DonutChart
