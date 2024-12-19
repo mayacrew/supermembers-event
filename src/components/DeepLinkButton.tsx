@@ -1,8 +1,9 @@
 "use client";
 
 const DeepLinkButton = () => {
+  const eventId = '1';
   const handleOpenApp = () => {
-    const deepLink = "supermembers://events/1234"; // 딥링크 URI
+    const deepLink = `supermembers://events/${eventId}`; // 딥링크 URI
     const appStoreLink =
       "https://apps.apple.com/kr/app/%EC%8A%88%ED%8D%BC%EB%A9%A4%EB%B2%84%EC%8A%A4-%EB%84%A4%EC%9D%B4%EB%B2%84%EB%B8%94%EB%A1%9C%EA%B7%B8%EC%9A%A9/id1242322360"; // iOS App Store URL
     const playStoreLink =
