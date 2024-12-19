@@ -1,15 +1,16 @@
-import Typo from '@/components/Typo';
-import { Color } from '@/utils/color';
+import Typo from '@/components/Typo'
+import { Color } from '@/utils/color'
 
 interface Props {
-  title: string;
-  content: React.ReactNode;
-  gap?: number;
+  className?: string
+  title: string
+  content: React.ReactNode
+  gap?: number
 }
 
-const Card = ({ title, content, gap = 12 }: Props) => {
+const Card = ({ title, content, gap = 12, className }: Props) => {
   return (
-    <div style={{ ...styles.container, gap }}>
+    <div style={{ ...styles.container, gap }} className={className}>
       <Typo
         fontSize={16}
         fontWeight={600}
@@ -20,8 +21,8 @@ const Card = ({ title, content, gap = 12 }: Props) => {
       </Typo>
       {content}
     </div>
-  );
-};
+  )
+}
 
 const styles = {
   container: {
@@ -34,6 +35,6 @@ const styles = {
     backgroundColor: '#ffffff',
     border: `2px solid ${Color.disabled_dark}`,
   },
-};
+}
 
-export default Card;
+export default Card

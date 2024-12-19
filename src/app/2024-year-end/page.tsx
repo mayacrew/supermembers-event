@@ -1,8 +1,7 @@
 import Typo from '@/components/Typo'
 import { Color } from '@/utils/color'
 import { MdError } from 'react-icons/md'
-import DonutChart from '../../../components/DonutChart'
-import DeepLinkButton from '../../../components/DeepLinkButton'
+import DonutChart from '@/components/DonutChart'
 import VerticalSpace from '@/components/VerticalSpace'
 import Card from '@/components/Card'
 import HorizontalRule from '@/components/HorizontalRule'
@@ -18,22 +17,21 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id } = await params // params 안전하게 접근
-
   // 메타데이터 생성을 위해 필요한 데이터 가져오기
-  const response = await fetch(
-    `https://api-server-fg5dmxiesa-du.a.run.app/event/2024-year-end-summary?hash=${id}`,
-  )
-  const eventData = await response.json()
-  // console.log(eventData);
+  //   const response = await fetch(
+  //     `https://api-server-fg5dmxiesa-du.a.run.app/event/2024-year-end-summary?hash=${id}`,
+  //   )
+  //   const eventData = await response.json()
   return {
     title: `슈퍼멤버스 2024 연말 결산`,
-    description: `Details for event ${id}`,
   }
 }
 
 export default async function EventPage({ params }: Props) {
   const { id } = await params
+
+  const headers = new Headers()
+  const token = headers.get('Authorization')
 
   const noticeList = [
     '1등 선정시 수령 후기 위주로 작성 부탁드립니다. ( 제품 후기x )',
@@ -49,7 +47,7 @@ export default async function EventPage({ params }: Props) {
     `https://api-server-fg5dmxiesa-du.a.run.app/event/2024-year-end-summary?hash=${id}`,
   ).then((res) => res.json())
 
-  return (
+  return summary?.yourCategories ? (
     <div style={styles.container}>
       <div style={styles.header}>
         <div style={styles.headerTitle}>
@@ -102,13 +100,12 @@ export default async function EventPage({ params }: Props) {
                   2024.1.1 ~ 2024.12.12 집계 기준
                 </Typo>
                 <Typo fontSize={21} fontWeight={700} lineHeight={24}>
-                  {summary.yourDiscountRank > 0
-                    ? summary.yourDiscountRankRatio > 0.1
-                      ? `상위 ${(
-                          (summary.yourDiscountRankRatio || 0) * 100
-                        ).toFixed(0)}%`
-                      : '상위 0.1%'
-                    : ''}
+                  상위
+                  {(summary.yourDiscountRankRatio || 0) * 100 <= 0.1
+                    ? ' 0.1% 이내'
+                    : ` ${((summary.yourDiscountRankRatio || 0) * 100).toFixed(
+                        0,
+                      )}%`}
                 </Typo>
               </div>
               <div
@@ -189,7 +186,7 @@ export default async function EventPage({ params }: Props) {
         <button style={styles.button}>
           <Typo color={'#ffffff'}>친구에게 자랑하기</Typo>
         </button>
-        <DeepLinkButton />
+        {/* <DeepLinkButton /> */}
         <VerticalSpace height={60} />
         <div style={styles.footer}>
           <Typo
@@ -215,6 +212,8 @@ export default async function EventPage({ params }: Props) {
         </div>
       </div>
     </div>
+  ) : (
+    <div></div>
   )
 }
 

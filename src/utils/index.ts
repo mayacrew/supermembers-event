@@ -31,7 +31,16 @@ export const formattedCategory = (category: Category | null) => {
         Object.entries(value).forEach(([secondKey, secondValue]) => {
           if (typeof secondValue === 'object') {
             Object.entries(secondValue).forEach(([thirdKey, thirdValue]) => {
-              acc[`${secondKey} ∙ ${thirdKey}`] = thirdValue
+              if (secondKey === 'none') {
+                acc['기타'] = acc['기타'] || 0 + thirdValue
+              } else {
+                if (thirdKey === 'none') {
+                  acc[`${secondKey} ∙ 기타`] =
+                    acc[`${secondKey} ∙ 기타`] || 0 + thirdValue
+                } else {
+                  acc[`${secondKey} ∙ ${thirdKey}`] = thirdValue
+                }
+              }
             })
           }
         })

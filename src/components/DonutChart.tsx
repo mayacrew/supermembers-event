@@ -31,7 +31,7 @@ const DonutChart = ({ category }: Props) => {
           breakpoint: 480,
           options: {
             chart: {
-              width: 200,
+              width: 300,
             },
             legend: {
               position: 'bottom',
@@ -43,8 +43,9 @@ const DonutChart = ({ category }: Props) => {
   })
   return (
     <div>
-      <div id="chart">
+      <div className="w-full" id="chart">
         <ApexChart
+          width={300}
           options={state.options}
           series={state.series}
           labels={state.options.labels}
