@@ -186,7 +186,7 @@ export default async function EventPage({ params }: Props) {
         <button style={styles.button}>
           <Typo color={'#ffffff'}>친구에게 자랑하기</Typo>
         </button>
-        {/* <DeepLinkButton /> */}
+        <DeepLinkButton />
         <VerticalSpace height={60} />
         <div style={styles.footer}>
           <Typo
